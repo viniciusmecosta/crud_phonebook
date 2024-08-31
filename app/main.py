@@ -1,12 +1,10 @@
 from fastapi import FastAPI
-from controllers.phonebook_controller import PhonebookController
-from observers.phonebook_observer import PhonebookObserver
+from app.views.phone_view import router
 
 app = FastAPI()
 
-controller = PhonebookController()
-observer = PhonebookObserver(controller)
+app.include_router(router)
 
-@app.on_event("startup")
-async def startup_event():
-    controller.observer = observer
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=8000)
